@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express Capital Associates Application</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        h1 { font-size: 24px; color: #1a4d2e; }
+        h2 { font-size: 20px; margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 5px; color: #1a4d2e; }
+        .form-section { background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .form-row { display: flex; flex-wrap: wrap; margin-bottom: 15px; }
+        .form-group { flex: 1 1 45%; margin-right: 10px; }
+        .form-group:last-child { margin-right: 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="email"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="radio"] { margin-right: 5px; }
+        .checkbox-group label { font-weight: normal; display: inline; }
+        .checkbox-group { margin-bottom: 15px; }
+        .hidden { display: none; }
+        .section-title { font-size: 18px; font-weight: bold; color: #1a4d2e; margin-top: 20px; }
+        .highlight { color: #d68019; }
+        .fax-header { font-weight: bold; text-align: center; font-size: 18px; margin-bottom: 15px; }
+        .disclosure-container { border: 1px solid #ccc; padding: 15px; max-height: 200px; overflow-y: scroll; font-size: 12px; margin-bottom: 15px; }
+        .buttons { text-align: center; margin-top: 20px; }
+        button, .anchor-btn {
+            background-color: #1a4d2e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover, .anchor-btn:hover { background-color: #2b6a48; }
+        .signature-pad {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            height: 150px;
+            background-color: #fff;
+            margin-top: 10px;
+            cursor: not-allowed;
+        }
+        .signature-pad-container { text-align: center; }
+        @media (max-width: 600px) {
+            .form-group { flex: 1 1 100%; margin-right: 0; }
+            .form-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Express Capital Network Associates</h1>
+        </header>
+
+        <section id="application" class="form-section">
+            <h2>Application for Funding</h2>
+            <form id="mainForm">
+                <div class="section-title">BUSINESS INFORMATION</div>
+                <div class="form-row">
+                    <div class="form-group"><label for="legalCorporateName">Legal Corporate Name:</label><input type="text" id="legalCorporateName" name="legalCorporateName" required></div>
+                    <div class="form-group"><label for="dba">DBA (Doing Business As):</label><input type="text" id="dba" name="dba"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="physicalAddress">Physical Address:</label><input type="text" id="physicalAddress" name="physicalAddress" required></div>
+                    <div class="form-group"><label for="telephoneNumber">Telephone Number:</label><input type="text" id="telephoneNumber" name="telephoneNumber" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="city">City:</label><input type="text" id="city" name="city" required></div>
+                    <div class="form-group"><label for="state">State:</label><input type="text" id="state" name="state" required></div>
+                    <div class="form-group"><label for="zip">Zip:</label><input type="text" id="zip" name="zip" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="federalTaxId">Federal Tax ID:</label><input type="text" id="federalTaxId" name="federalTaxId" required></div>
+                    <div class="form-group"><label for="dateBusinessStarted">Date Business Started:</label><input type="date" id="dateBusinessStarted" name="dateBusinessStarted" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="website">Website:</label><input type="text" id="website" name="website"></div>
+                    <div class="form-group"><label for="emailAddress">Email Address:</label><input type="email" id="emailAddress" name="emailAddress" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Type of Entity:</label>
+                        <div class="checkbox-group">
+                            <label><input type="radio" name="entityType" value="Corporation" required> Corporation</label>
+                            <label><input type="radio" name="entityType" value="LLC"> LLC</label>
+                            <label><input type="radio" name="entityType" value="Sole Proprietor"> Sole Proprietor</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="businessType">Industry Type:</label>
+                        <select id="businessType" name="businessType" required>
+                            <option value="">Select a business type</option>
+                            <option value="Retail Store">Retail Store</option>
+                            <option value="Restaurant / Food Service">Restaurant / Food Service</option>
+                            <option value="E-commerce / Online Store">E-commerce / Online Store</option>
+                            <option value="Construction / Trades (Plumbing, Electrical, HVAC)">Construction / Trades (Plumbing, Electrical, HVAC)</option>
+                            <option value="Healthcare / Medical Practice">Healthcare / Medical Practice</option>
+                            <option value="Professional Services (Consulting, Legal, Accounting)">Professional Services (Consulting, Legal, Accounting)</option>
+                            <option value="Automotive (Repair, Dealership)">Automotive (Repair, Dealership)</option>
+                            <option value="Hospitality / Lodging (Hotels, Motels, B&Bs)">Hospitality / Lodging (Hotels, Motels, B&Bs)</option>
+                            <option value="Manufacturing / Production">Manufacturing / Production</option>
+                            <option value="Transportation / Logistics">Transportation / Logistics</option>
+                            <option value="Beauty Salon / Spa">Beauty Salon / Spa</option>
+                            <option value="Fitness / Gym">Fitness / Gym</option>
+                            <option value="Real Estate / Property Management">Real Estate / Property Management</option>
+                            <option value="Technology / Software">Technology / Software</option>
+                            <option value="Agriculture">Agriculture</option>
+                            <option value="Non-Profit Organization">Non-Profit Organization</option>
+                            <option value="Other">Other (Please specify)</option>
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="other-industry-group">
+                        <label for="otherIndustryType">Specify Other Industry:</label>
+                        <input type="text" id="otherIndustryType" name="otherIndustryType" maxlength="20" placeholder="e.g., Landscaping Services">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="monthlyGrossIncome">Monthly Gross Income (Avg.):</label><input type="text" id="monthlyGrossIncome" name="monthlyGrossIncome" required></div>
+                    <div class="form-group"><label for="fundingAmountRequest">Funding Amount Request:</label><input type="text" id="fundingAmountRequest" name="fundingAmountRequest" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fundingReason">Primary reason for seeking funding:</label>
+                        <select id="fundingReason" name="fundingReason" required>
+                            <option value="">Select a reason</option>
+                            <option value="General Working Capital / Cash Flow">General Working Capital / Cash Flow</option>
+                            <option value="Inventory Purchase">Inventory Purchase</option>
+                            <option value="Equipment Purchase or Repair">Equipment Purchase or Repair</option>
+                            <option value="Marketing & Advertising Campaigns">Marketing & Advertising Campaigns</option>
+                            <option value="Business Expansion / Renovation">Business Expansion / Renovation</option>
+                            <option value="Payroll Expenses">Payroll Expenses</option>
+                            <option value="Debt Consolidation">Debt Consolidation</option>
+                            <option value="Bridge Financing (e.g., waiting on invoices)">Bridge Financing (e.g., waiting on invoices)</option>
+                            <option value="Emergency Funds / Unexpected Expenses">Emergency Funds / Unexpected Expenses</option>
+                            <option value="Seasonal Business Needs">Seasonal Business Needs</option>
+                            <option value="New Product/Service Development">New Product/Service Development</option>
+                            <option value="Hiring New Staff">Hiring New Staff</option>
+                            <option value="Real Estate Acquisition">Real Estate Acquisition</option>
+                            <option value="Franchise Fee / Acquisition">Franchise Fee / Acquisition</option>
+                            <option value="Other">Other (Please specify)</option>
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="other-funding-group">
+                        <label for="otherFundingReason">Specify Other Reason:</label>
+                        <input type="text" id="otherFundingReason" name="otherFundingReason" maxlength="20" placeholder="e.g., Tax payments">
+                    </div>
+                </div>
+
+
+                <div class="section-title">MERCHANT/OWNER INFORMATION</div>
+                <div class="form-row">
+                    <div class="form-group"><label for="corporateOwnerName">Corporate Officer/Owner Name:</label><input type="text" id="corporateOwnerName" name="corporateOwnerName" required></div>
+                    <div class="form-group"><label for="ownerTitle">Title:</label><input type="text" id="ownerTitle" name="ownerTitle" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="ownershipPercentage">Ownership Percentage:</label><input type="text" id="ownershipPercentage" name="ownershipPercentage" required></div>
+                    <div class="form-group"><label for="ownerHomeAddress">Home Address:</label><input type="text" id="ownerHomeAddress" name="ownerHomeAddress" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="ownerCity">City:</label><input type="text" id="ownerCity" name="ownerCity" required></div>
+                    <div class="form-group"><label for="ownerState">State:</label><input type="text" id="ownerState" name="ownerState" required></div>
+                    <div class="form-group"><label for="ownerZip">Zip:</label><input type="text" id="ownerZip" name="ownerZip" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="ownerSsn">Social Security Number (SSN):</label><input type="text" id="ownerSsn" name="ownerSsn" required></div>
+                    <div class="form-group"><label for="ownerDob">Date of Birth:</label><input type="date" id="ownerDob" name="ownerDob" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ownerFicoScore">FICO Score:</label>
+                        <select id="ownerFicoScore" name="ownerFicoScore" required>
+                            <option value="">Select...</option>
+                            <script>
+                                const ficoSelect = document.getElementById('ownerFicoScore');
+                                for (let i = 300; i <= 850; i++) {
+                                    const option = document.createElement('option');
+                                    option.value = i;
+                                    option.textContent = i;
+                                    ficoSelect.appendChild(option);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="text" id="ownerCellNumber" name="ownerCellNumber" required></div>
+                </div>
+
+                <div class="section-title">PARTNER INFORMATION</div>
+                <p>Please provide information for all owners with 20% or more ownership.</p>
+                <div class="form-row">
+                    <div class="form-group"><label for="partnerName1">Partner Name:</label><input type="text" id="partnerName1" name="partnerName1"></div>
+                    <div class="form-group"><label for="partnerTitle1">Title:</label><input type="text" id="partnerTitle1" name="partnerTitle1"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="partnerOwnershipPercentage1">Ownership Percentage:</label><input type="text" id="partnerOwnershipPercentage1" name="partnerOwnershipPercentage1"></div>
+                    <div class="form-group"><label for="partnerHomeAddress1">Home Address:</label><input type="text" id="partnerHomeAddress1" name="partnerHomeAddress1"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="partnerCity1">City:</label><input type="text" id="partnerCity1" name="partnerCity1"></div>
+                    <div class="form-group"><label for="partnerState1">State:</label><input type="text" id="partnerState1" name="partnerState1"></div>
+                    <div class="form-group"><label for="partnerZip1">Zip:</label><input type="text" id="partnerZip1" name="partnerZip1"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="partnerSsn1">Social Security Number (SSN):</label><input type="text" id="partnerSsn1" name="partnerSsn1"></div>
+                    <div class="form-group"><label for="partnerDob1">Date of Birth:</label><input type="date" id="partnerDob1" name="partnerDob1"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="partnerFicoScore1">FICO Score:</label>
+                        <select id="partnerFicoScore1" name="partnerFicoScore1">
+                            <option value="">Select...</option>
+                            <script>
+                                const partnerFicoSelect = document.getElementById('partnerFicoScore1');
+                                for (let i = 300; i <= 850; i++) {
+                                    const option = document.createElement('option');
+                                    option.value = i;
+                                    option.textContent = i;
+                                    partnerFicoSelect.appendChild(option);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1"></div>
+                </div>
+
+                <div class="fax-header"><strong>Fax your document to:</strong> (646) 448-8202</div>
+                <div class="section-title"><span class="highlight">Additional Documents Required</span></div>
+                <div class="checkboxes">
+                    <label><input type="checkbox" required /> 4 recent months of business bank statements</label>
+                    <label><input type="checkbox" required /> Copy of drivers license</label>
+                    <label><input type="checkbox" required /> Voided business check</label>
+                </div>
+                <div class="buttons">
+                    <button type="button" onclick="window.print()">Print Application</button>
+                    <button type="button" id="pdfBtn">Download PDF</button>
+                </div>
+                <div style="text-align:center; margin-top:0px; margin-bottom:0;">
+                    <small>
+                        To email your completed application, first download as PDF, then attach the file to your email to:
+                        <a href="mailto:franz@expresscapitalassociate.com">franz@expresscapitalassociate.com</a>
+                    </small>
+                </div>
+            </form>
+            <button class="anchor-btn" onclick="document.getElementById('signature').scrollIntoView({behavior: 'smooth'});">
+                Go to Signature
+            </button>
+        </section>
+
+        <section id="signature" class="signature-section">
+            <h2>Express Capital Associates Disclosure Form</h2>
+            <form id="disclosureForm" action="https://formspree.io/f/meolqqpr" method="POST">
+                <div class="sig-form-row">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="sig-form-row">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" required>
+                </div>
+                <div class="sig-form-row">
+                    <label for="companyName">Business Name:</label>
+                    <input type="text" id="companyName" name="companyName" required>
+                </div>
+                <label for="disclosure">Disclosure / Terms & Conditions</label>
+                <div class="disclosure-container" id="disclosure">
+                    By signing above, each of the above listed business and business owner/officer (individually and collectively, “you”) authorize Express Capital Network Associates and its agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statements or data obtained from applicant. You also authorize Express Capital Network Associates to transmit this application form, with any of the foregoing information obtained in connection with this application, to any or all of the Recipients for the foregoing purposes. You also consent to the release, by any creditor or financial institution, of any information relating to any of you, to Express Capital Network Associates and to each of the Recipients, on its own behalf. I am providing my business cell-phone and business e-mail address and hereby consent to the receipt of correspondence/messages regarding transactions with Express Capital Network Associates and/or its affiliates on either medium. I certify that all the information contained herein is complete, true and accurate. Express Capital Network Associate is not a lender or a bank. We do not provide loans or make credit decisions. Our service connects businesses like yours with a network of trusted third‑party funding providers who offer Merchant Cash Advances (MCAs) and other commercial financing products.
+                    A Merchant Cash Advance (MCA) is a purchase of future receivables, not a loan. It is not subject to the same regulatory requirements as traditional loans and may have different terms and conditions. Please be aware that MCAs may involve higher costs compared to traditional financing options.
+                    All funding offers are subject to the individual provider's underwriting and approval processes. Express Capital Network Associate may receive a referral fee or commission if your business is funded through one of our partners. We strongly advise you to consult with a qualified financial advisor to determine if an MCA or any other financing product is suitable for your specific business needs.
+                    By submitting this application, you agree to be contacted by phone, SMS, or email regarding commercial financing products, in accordance with our <a href="https://www.expresscapassociates.com/privacy-policy">Privacy Policy</a>.
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="agreement" name="agreement" required>
+                    <label for="agreement">I acknowledge that I have read, understood, and agree to the above document's terms and conditions.</label>
+                </div>
+                <label for="signaturePad">Signature</label>
+                <canvas id="signaturePad" class="signature-pad"></canvas>
+                <button type="button" id="clearSignature">Clear Signature</button>
+                <button type="submit">Submit</button>
+                <button class="anchor-btn" type="button" onclick="document.getElementById('application').scrollIntoView({behavior: 'smooth'});">
+                    Back to Application
+                </button>
+            </form>
+        </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Show/hide other industry text box and reason for funding field in application section
+        const businessTypeSelect = document.getElementById('businessType');
+        const otherIndustryGroup = document.getElementById('other-industry-group');
+        const otherIndustryType = document.getElementById('otherIndustryType');
+        const fundingReasonSelect = document.getElementById('fundingReason');
+        const otherFundingGroup = document.getElementById('other-funding-group');
+        const otherFundingReason = document.getElementById('otherFundingReason');
+
+        function toggleOtherField(selectElement, otherGroupElement, otherInputElement) {
+            if (selectElement.value === 'Other') {
+                otherGroupElement.classList.remove('hidden');
+                otherInputElement.required = true;
+            } else {
+                otherGroupElement.classList.add('hidden');
+                otherInputElement.value = '';
+                otherInputElement.required = false;
+            }
+        }
+
+        businessTypeSelect.addEventListener('change', () => toggleOtherField(businessTypeSelect, otherIndustryGroup, otherIndustryType));
+        fundingReasonSelect.addEventListener('change', () => toggleOtherField(fundingReasonSelect, otherFundingGroup, otherFundingReason));
+
+        // Limit word count for 'Other' fields
+        function limitWords(inputElement, maxWords) {
+            const words = inputElement.value.trim().split(/\s+/);
+            if (words.length > maxWords) {
+                inputElement.value = words.slice(0, maxWords).join(' ');
+            }
+        }
+        otherIndustryType.addEventListener('input', () => limitWords(otherIndustryType, 20));
+        otherFundingReason.addEventListener('input', () => limitWords(otherFundingReason, 20));
+
+        // Partner section required logic based on ownership percentage
+        document.getElementById('ownershipPercentage').addEventListener('input', function() {
+            let val = parseFloat(this.value);
+            let required = (val < 100);
+            [
+                "partnerName1", "partnerTitle1", "partnerOwnershipPercentage1", "partnerHomeAddress1",
+                "partnerCity1", "partnerState1", "partnerZip1", "partnerSsn1",
+                "partnerDob1", "partnerFicoScore1", "partnerCellNumber1"
+            ].forEach(id => {
+                let el = document.getElementById(id);
+                if (el) el.required = required;
+            });
+        });
+
+        // PDF download for application
+        document.getElementById('pdfBtn').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: "p", unit: "pt", format: "a4" });
+            function val(id) { let el = document.getElementById(id); return el ? el.value : ''; }
+            let y = 40;
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.text("EXPRESS CAPITAL NETWORK ASSOCIATES", 40, y);
+            y += 24;
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text("Please note, also send previous four months bank statement with completed application.", 40, y);
+            y += 26;
+            doc.setFontSize(12);
+            doc.setFont(undefined, "bold");
+            doc.text("BUSINESS INFORMATION", 40, y); y += 18;
+            doc.setFont(undefined, "normal");
+            doc.text(`Legal Corporate Name: ${val('legalCorporateName')}`, 40, y); y += 16;
+            doc.text(`DBA: ${val('dba')}`, 40, y); y += 16;
+            doc.text(`Physical Address: ${val('physicalAddress')}`, 40, y); y += 16;
+            doc.text(`City: ${val('city')}, State: ${val('state')}, Zip: ${val('zip')}`, 40, y); y += 16;
+            doc.text(`Telephone Number: ${val('telephoneNumber')}`, 40, y); y += 16;
+            doc.text(`Federal Tax ID: ${val('federalTaxId')}`, 40, y); y += 16;
+            doc.text(`Date Business Started: ${val('dateBusinessStarted')}`, 40, y); y += 16;
+            doc.text(`Website: ${val('website')}`, 40, y); y += 16;
+            doc.text(`Type of Entity: ${document.querySelector('input[name="entityType"]:checked') ? document.querySelector('input[name="entityType"]:checked').value : ''}`, 40, y); y += 16;
+            doc.text(`Email Address: ${val('emailAddress')}`, 40, y); y += 16;
+
+            let businessType = businessTypeSelect.value;
+            if (businessType === 'Other') {
+                businessType = otherIndustryType.value;
+            }
+            doc.text(`Industry Type: ${businessType}`, 40, y); y += 16;
+            doc.text(`Monthly Gross Income: $${val('monthlyGrossIncome')}`, 40, y); y += 16;
+            doc.text(`Funding Amount Request: $${val('fundingAmountRequest')}`, 40, y); y += 16;
+
+            let fundingReason = fundingReasonSelect.value;
+            if (fundingReason === 'Other') {
+                fundingReason = otherFundingReason.value;
+            }
+            doc.text(`Primary reason for seeking funding: ${fundingReason}`, 40, y); y += 24;
+
+            doc.setFont(undefined, "bold");
+            doc.text("MERCHANT/OWNER INFORMATION", 40, y); y += 18;
+            doc.setFont(undefined, "normal");
+            doc.text(`Corporate Office/Owner Name: ${val('corporateOwnerName')}`, 40, y); y += 16;
+            doc.text(`Title: ${val('ownerTitle')}`, 40, y); y += 16;
+            doc.text(`Ownership Percentage: ${val('ownershipPercentage')}`, 40, y); y += 16;
+            doc.text(`Home Address: ${val('ownerHomeAddress')}`, 40, y); y += 16;
+            doc.text(`City: ${val('ownerCity')}, State: ${val('ownerState')}, Zip: ${val('ownerZip')}`, 40, y); y += 16;
+            doc.text(`Social Security Number (SSN): ${val('ownerSsn')}`, 40, y); y += 16;
+            doc.text(`Date of Birth: ${val('ownerDob')}`, 40, y); y += 16;
+            doc.text(`FICO Score: ${val('ownerFicoScore')}`, 40, y); y += 16;
+            doc.text(`Cell Number: ${val('ownerCellNumber')}`, 40, y); y += 24;
+            doc.setFont(undefined, "bold");
+            doc.text("PARTNER INFORMATION", 40, y); y += 18;
+            doc.setFont(undefined, "normal");
+            doc.text(`Partner Name: ${val('partnerName1')}`, 40, y); y += 16;
+            doc.text(`Title: ${val('partnerTitle1')}`, 40, y); y += 16;
+            doc.text(`Ownership Percentage: ${val('partnerOwnershipPercentage1')}`, 40, y); y += 16;
+            doc.text(`Home Address: ${val('partnerHomeAddress1')}`, 40, y); y += 16;
+            doc.text(`City: ${val('partnerCity1')}, State: ${val('partnerState1')}, Zip: ${val('partnerZip1')}`, 40, y); y += 16;
+            doc.text(`Social Security Number (SSN): ${val('partnerSsn1')}`, 40, y); y += 16;
+            doc.text(`Date of Birth: ${val('partnerDob1')}`, 40, y); y += 16;
+            doc.text(`FICO Score: ${val('partnerFicoScore1')}`, 40, y); y += 16;
+            doc.text(`Cell Number: ${val('partnerCellNumber1')}`, 40, y); y += 24;
+            doc.setFont(undefined, "bold");
+            doc.text("Additional Documents Required", 40, y); y += 18;
+            doc.setFont(undefined, "normal");
+            doc.text("Attach the following (check if included):", 40, y); y += 16;
+            doc.text("[ ] 4 recent months of business bank statements", 50, y); y += 14;
+            doc.text("[ ] Copy of driver's license", 50, y); y += 14;
+            doc.text("[ ] Voided business check", 50, y); y += 24;
+            doc.setFont(undefined, "italic");
+            doc.text("By signing above, each of the above listed business and business owner/officer (individually and collectively, “you”) authorize Express Capital Network Associates and its agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statements or data obtained from applicant. You also authorize Express Capital Network Associates to transmit this application form, with any of the foregoing information obtained in connection with this application, to any or all of the Recipients for the foregoing purposes. You also consent to the release, by any creditor or financial institution, of any information relating to any of you, to Express Capital Network Associates and to each of the Recipients, on its own behalf. I am providing my business cell-phone and business e-mail address and hereby consent to the receipt of correspondence/messages regarding transactions with Express Capital Network Associates and/or its affiliates on either medium. I certify that all the information contained herein is complete, true and accurate.", 40, y, {maxWidth: 520});
+            y += 80;
+            doc.setFont(undefined, "normal");
+            doc.text("Signature: _____________________________", 40, y);
+            doc.text("Date: ___________________", 300, y);
+            doc.save("Express_Capital_Application.pdf");
+        });
+
+        // Signature pad logic
+        const canvas = document.getElementById('signaturePad');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        const agreement = document.getElementById('agreement');
+        function enableSignature() {
+            if (agreement.checked) {
+                canvas.style.cursor = 'crosshair';
+            } else {
+                canvas.style.cursor = 'not-allowed';
+            }
+        }
+        agreement.addEventListener('change', enableSignature);
+        enableSignature();
+        canvas.addEventListener('mousedown', (e) => {
+            if (!agreement.checked) {
+                alert("Please check the box acknowledging you agree before signing.");
+                return;
+            }
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+        canvas.addEventListener('mousemove', (e) => {
+            if (!drawing) return;
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+            document.querySelector('#signature button[type="submit"]').scrollIntoView({ behavior: 'smooth' });
+        });
+        canvas.addEventListener('mouseleave', () => { drawing = false; });
+        canvas.addEventListener('touchstart', (e) => {
+            if (!agreement.checked) {
+                alert("Please check the box acknowledging you agree before signing.");
+                e.preventDefault();
+                return;
+            }
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            if (!drawing) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener('touchend', () => {
+            drawing = false;
+            document.querySelector('#signature button[type="submit"]').scrollIntoView({ behavior: 'smooth' });
+        });
+        document.getElementById('clearSignature').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Disclosure form submit
+        document.getElementById('disclosureForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!agreement.checked) {
+                alert("You must agree to the terms before submitting.");
+                return;
+            }
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let isCanvasEmpty = true;
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                if (imageData.data[i + 3] !== 0) {
+                    isCanvasEmpty = false;
+                    break;
+                }
+            }
+            if (isCanvasEmpty) {
+                alert("Please sign the document before submitting.");
+                return;
+            }
+            const form = e.target;
+            const formData = new FormData(form);
+            const signatureData = canvas.toDataURL('image/png');
+            formData.append('signature', signatureData);
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    alert("Form submitted successfully!");
+                    form.reset();
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                } else {
+                    const data = await response.json();
+                    if (Object.hasOwn(data, 'errors')) {
+                        alert(data.errors.map(error => error.message).join(", "));
+                    } else {
+                        alert("Oops! There was a problem submitting your form.");
+                    }
+                }
+            } catch (error) {
+                alert("Oops! There was a problem submitting your form.");
+            }
+        });
+
+        // Resize canvas to fit container
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+    </script>
+</body>
+</html>

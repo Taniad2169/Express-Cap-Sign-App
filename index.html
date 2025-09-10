@@ -54,9 +54,80 @@
             cursor: not-allowed;
         }
         .signature-pad-container { text-align: center; }
+        .yellow-highlight {
+            background-color: yellow;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .document-upload-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .document-upload-row .checkbox-label {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .document-upload-row .checkbox-label input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .signature-error {
+            color: #d9534f;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .signature-error button {
+            background-color: #d9534f;
+            margin-top: 10px;
+        }
+        .signature-error button:hover {
+            background-color: #c9302c;
+        }
+        .button-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
         @media (max-width: 600px) {
             .form-group { flex: 1 1 100%; margin-right: 0; }
             .form-row { flex-direction: column; }
+            .button-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .button-row button, .button-row .anchor-btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+            }
+            .header, .buttons, .anchor-btn, .section-title, .document-uploads {
+                display: none;
+            }
+            .form-section, .signature-section {
+                box-shadow: none;
+                background-color: white;
+            }
+            .container {
+                max-width: none;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
         }
     </style>
 </head>
@@ -66,9 +137,10 @@
             <h1>Express Capital Network Associates</h1>
         </header>
 
-        <section id="application" class="form-section">
-            <h2>Application for Funding</h2>
-            <form id="mainForm">
+        <form id="unifiedForm" action="https://formspree.io/f/movnqkgb" method="POST" enctype="multipart/form-data">
+
+            <section id="application" class="form-section">
+                <h2>Application for Funding</h2>
                 <div class="section-title">BUSINESS INFORMATION</div>
                 <div class="form-row">
                     <div class="form-group"><label for="legalCorporateName">Legal Corporate Name:</label><input type="text" id="legalCorporateName" name="legalCorporateName" required></div>
@@ -80,7 +152,62 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="city">City:</label><input type="text" id="city" name="city" required></div>
-                    <div class="form-group"><label for="state">State:</label><input type="text" id="state" name="state" required></div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
                     <div class="form-group"><label for="zip">Zip:</label><input type="text" id="zip" name="zip" required></div>
                 </div>
                 <div class="form-row">
@@ -88,7 +215,7 @@
                     <div class="form-group"><label for="dateBusinessStarted">Date Business Started:</label><input type="date" id="dateBusinessStarted" name="dateBusinessStarted" required></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="website">Website:</label><input type="text" id="website" name="website"></div>
+                    <div class="form-group"><label for="website">Website:</label><input type="text" id="website" name="website" required></div>
                     <div class="form-group"><label for="emailAddress">Email Address:</label><input type="email" id="emailAddress" name="emailAddress" required></div>
                 </div>
                 <div class="form-row">
@@ -97,6 +224,7 @@
                         <div class="checkbox-group">
                             <label><input type="radio" name="entityType" value="Corporation" required> Corporation</label>
                             <label><input type="radio" name="entityType" value="LLC"> LLC</label>
+                            <label><input type="radio" name="entityType" value="Partnership"> Partnership</label>
                             <label><input type="radio" name="entityType" value="Sole Proprietor"> Sole Proprietor</label>
                         </div>
                     </div>
@@ -174,7 +302,62 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="ownerCity">City:</label><input type="text" id="ownerCity" name="ownerCity" required></div>
-                    <div class="form-group"><label for="ownerState">State:</label><input type="text" id="ownerState" name="ownerState" required></div>
+                    <div class="form-group">
+                        <label for="ownerState">State:</label>
+                        <select id="ownerState" name="ownerState" required>
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
                     <div class="form-group"><label for="ownerZip">Zip:</label><input type="text" id="ownerZip" name="ownerZip" required></div>
                 </div>
                 <div class="form-row">
@@ -212,7 +395,62 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label for="partnerCity1">City:</label><input type="text" id="partnerCity1" name="partnerCity1"></div>
-                    <div class="form-group"><label for="partnerState1">State:</label><input type="text" id="partnerState1" name="partnerState1"></div>
+                    <div class="form-group">
+                        <label for="partnerState1">State:</label>
+                        <select id="partnerState1" name="partnerState1">
+                            <option value="">Select State</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
                     <div class="form-group"><label for="partnerZip1">Zip:</label><input type="text" id="partnerZip1" name="partnerZip1"></div>
                 </div>
                 <div class="form-row">
@@ -238,12 +476,32 @@
                     <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1"></div>
                 </div>
 
-                <div class="fax-header"><strong>Fax your document to:</strong> (646) 448-8202</div>
                 <div class="section-title"><span class="highlight">Additional Documents Required</span></div>
-                <div class="checkboxes">
-                    <label><input type="checkbox" required /> 4 recent months of business bank statements</label>
-                    <label><input type="checkbox" required /> Copy of drivers license</label>
-                    <label><input type="checkbox" required /> Voided business check</label>
+                <div class="document-uploads">
+                    <div class="document-upload-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" required /> Copy of driver's license
+                        </label>
+                        <input type="file" id="driversLicenseUpload" name="driversLicenseUpload" required>
+                    </div>
+                    <div class="document-upload-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" required /> 4 recent months of business bank statements
+                        </label>
+                        <input type="file" id="bankStatementsUpload" name="bankStatementsUpload[]" multiple required>
+                    </div>
+                    <div class="document-upload-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" required /> Copy of a voided check
+                        </label>
+                        <input type="file" id="voidedCheckUpload" name="voidedCheckUpload" required>
+                    </div>
+                    <div class="document-upload-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" /> Miscellaneous documents
+                        </label>
+                        <input type="file" id="miscellaneousUpload" name="miscellaneousUpload[]" multiple>
+                    </div>
                 </div>
                 <div class="buttons">
                     <button type="button" onclick="window.print()">Print Application</button>
@@ -255,51 +513,69 @@
                         <a href="mailto:franz@expresscapitalassociate.com">franz@expresscapitalassociate.com</a>
                     </small>
                 </div>
-            </form>
-            <button class="anchor-btn" onclick="document.getElementById('signature').scrollIntoView({behavior: 'smooth'});">
-                Go to Signature
-            </button>
-        </section>
+            </section>
 
-        <section id="signature" class="signature-section">
-            <h2>Express Capital Associates Disclosure Form</h2>
-            <form id="disclosureForm" action="https://formspree.io/f/meolqqpr" method="POST">
-                <div class="sig-form-row">
-                    <label for="fullName">Full Name:</label>
-                    <input type="text" id="fullName" name="fullName" required>
+            <div class="button-row">
+                <button class="anchor-btn" type="button" onclick="document.getElementById('signature').scrollIntoView({behavior: 'smooth'});">
+                    Go to Signature
+                </button>
+            </div>
+
+            <section id="signature" class="form-section">
+                <h2>Signature *</h2>
+                
+                <div class="signature-error" id="signatureError">
+                    <h3>Signature Error</h3>
+                    You must agree to the terms and conditions before signing the application.<br>
+                    Please check the agreement box first.
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button type="button" onclick="document.getElementById('signatureError').style.display = 'none'">OK, I Understand</button>
+                    </div>
                 </div>
-                <div class="sig-form-row">
-                    <label for="phoneNumber">Phone Number:</label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" required>
+                
+                <div class="form-row">
+                    <div class="form-group"><label for="fullName">Full Name:</label><input type="text" id="fullName" name="fullName" required></div>
+                    <div class="form-group"><label for="phoneNumber">Phone Number:</label><input type="text" id="phoneNumber" name="phoneNumber" required></div>
                 </div>
-                <div class="sig-form-row">
-                    <label for="companyName">Business Name:</label>
-                    <input type="text" id="companyName" name="companyName" required>
+                <div class="form-row">
+                    <div class="form-group"><label for="companyName">Business Name:</label><input type="text" id="companyName" name="companyName" required></div>
                 </div>
+                
                 <label for="disclosure">Disclosure / Terms & Conditions</label>
                 <div class="disclosure-container" id="disclosure">
-                    By signing above, each of the above listed business and business owner/officer (individually and collectively, “you”) authorize Express Capital Network Associates and its agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statements or data obtained from applicant. You also authorize Express Capital Network Associates to transmit this application form, with any of the foregoing information obtained in connection with this application, to any or all of the Recipients for the foregoing purposes. You also consent to the release, by any creditor or financial institution, of any information relating to any of you, to Express Capital Network Associates and to each of the Recipients, on its own behalf. I am providing my business cell-phone and business e-mail address and hereby consent to the receipt of correspondence/messages regarding transactions with Express Capital Network Associates and/or its affiliates on either medium. I certify that all the information contained herein is complete, true and accurate. Express Capital Network Associate is not a lender or a bank. We do not provide loans or make credit decisions. Our service connects businesses like yours with a network of trusted third‑party funding providers who offer Merchant Cash Advances (MCAs) and other commercial financing products.
+                    By signing above, each of the above listed business and business owner/officer (individually and collectively, "you") authorize Express Capital Network Associates and its agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statements or data obtained from applicant. You also authorize Express Capital Network Associates to transmit this application form, with any of the foregoing information obtained in connection with this application, to any or all of the Recipients for the foregoing purposes. You also consent to the release, by any creditor or financial institution, of any information relating to any of you, to Express Capital Network Associates and to each of the Recipients, on its own behalf. I am providing my business cell-phone and business e-mail address and hereby consent to the receipt of correspondence/messages regarding transactions with Express Capital Network Associates and/or its affiliates on either medium. I certify that all the information contained herein is complete, true and accurate. Express Capital Network Associate is not a lender or a bank. We do not provide loans or make credit decisions. Our service connects businesses like yours with a network of trusted third-party funding providers who offer Merchant Cash Advances (MCAs) and other commercial financing products.
                     A Merchant Cash Advance (MCA) is a purchase of future receivables, not a loan. It is not subject to the same regulatory requirements as traditional loans and may have different terms and conditions. Please be aware that MCAs may involve higher costs compared to traditional financing options.
                     All funding offers are subject to the individual provider's underwriting and approval processes. Express Capital Network Associate may receive a referral fee or commission if your business is funded through one of our partners. We strongly advise you to consult with a qualified financial advisor to determine if an MCA or any other financing product is suitable for your specific business needs.
                     By submitting this application, you agree to be contacted by phone, SMS, or email regarding commercial financing products, in accordance with our <a href="https://www.expresscapassociates.com/privacy-policy">Privacy Policy</a>.
                 </div>
-                <div class="checkbox-container">
-                    <input type="checkbox" id="agreement" name="agreement" required>
-                    <label for="agreement">I acknowledge that I have read, understood, and agree to the above document's terms and conditions.</label>
+                
+                <h3>1. I acknowledge that I have read, understood, and agree to the above document's terms and conditions. *</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="agreement" name="agreement" required> I agree to the terms and conditions</label>
                 </div>
-                <label for="signaturePad">Signature</label>
-                <canvas id="signaturePad" class="signature-pad"></canvas>
-                <button type="button" id="clearSignature">Clear Signature</button>
-                <button type="submit">Submit</button>
-                <button class="anchor-btn" type="button" onclick="document.getElementById('application').scrollIntoView({behavior: 'smooth'});">
-                    Back to Application
-                </button>
-            </form>
-        </section>
+                
+                <h3>2. Signature *</h3>
+                <div class="signature-pad-container">
+                    <canvas id="signaturePad" class="signature-pad" style="cursor: not-allowed;"></canvas>
+                    <button type="button" id="clearSignature">Clear Signature</button>
+                </div>
+                
+                <div class="button-row">
+                    <button type="submit">Submit Application</button>
+                    <button type="button" onclick="window.print()">Print Form</button>
+                    <button type="button" id="pdfBtn2">Download as PDF</button>
+                    <button class="anchor-btn" type="button" onclick="document.getElementById('application').scrollIntoView({behavior: 'smooth'});">
+                        Back to Application
+                    </button>
+                </div>
+            </section>
+        </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <script>
-        // Show/hide other industry text box and reason for funding field in application section
+        // Show/hide other industry text box in application section
         const businessTypeSelect = document.getElementById('businessType');
         const otherIndustryGroup = document.getElementById('other-industry-group');
         const otherIndustryType = document.getElementById('otherIndustryType');
@@ -345,192 +621,135 @@
             });
         });
 
-        // PDF download for application
-        document.getElementById('pdfBtn').addEventListener('click', function() {
+        // Download PDF functionality
+        document.getElementById('pdfBtn').addEventListener('click', generatePDF);
+        document.getElementById('pdfBtn2').addEventListener('click', generatePDF);
+        
+        async function generatePDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({ orientation: "p", unit: "pt", format: "a4" });
-            function val(id) { let el = document.getElementById(id); return el ? el.value : ''; }
-            let y = 40;
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(16);
-            doc.text("EXPRESS CAPITAL NETWORK ASSOCIATES", 40, y);
-            y += 24;
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.text("Please note, also send previous four months bank statement with completed application.", 40, y);
-            y += 26;
-            doc.setFontSize(12);
-            doc.setFont(undefined, "bold");
-            doc.text("BUSINESS INFORMATION", 40, y); y += 18;
-            doc.setFont(undefined, "normal");
-            doc.text(`Legal Corporate Name: ${val('legalCorporateName')}`, 40, y); y += 16;
-            doc.text(`DBA: ${val('dba')}`, 40, y); y += 16;
-            doc.text(`Physical Address: ${val('physicalAddress')}`, 40, y); y += 16;
-            doc.text(`City: ${val('city')}, State: ${val('state')}, Zip: ${val('zip')}`, 40, y); y += 16;
-            doc.text(`Telephone Number: ${val('telephoneNumber')}`, 40, y); y += 16;
-            doc.text(`Federal Tax ID: ${val('federalTaxId')}`, 40, y); y += 16;
-            doc.text(`Date Business Started: ${val('dateBusinessStarted')}`, 40, y); y += 16;
-            doc.text(`Website: ${val('website')}`, 40, y); y += 16;
-            doc.text(`Type of Entity: ${document.querySelector('input[name="entityType"]:checked') ? document.querySelector('input[name="entityType"]:checked').value : ''}`, 40, y); y += 16;
-            doc.text(`Email Address: ${val('emailAddress')}`, 40, y); y += 16;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const formElements = document.querySelector('.container');
 
-            let businessType = businessTypeSelect.value;
-            if (businessType === 'Other') {
-                businessType = otherIndustryType.value;
-            }
-            doc.text(`Industry Type: ${businessType}`, 40, y); y += 16;
-            doc.text(`Monthly Gross Income: $${val('monthlyGrossIncome')}`, 40, y); y += 16;
-            doc.text(`Funding Amount Request: $${val('fundingAmountRequest')}`, 40, y); y += 16;
+            // Temporarily hide buttons and inputs not needed for the PDF
+            document.querySelectorAll('.buttons, .anchor-btn, input[type="file"]').forEach(el => el.style.visibility = 'hidden');
 
-            let fundingReason = fundingReasonSelect.value;
-            if (fundingReason === 'Other') {
-                fundingReason = otherFundingReason.value;
-            }
-            doc.text(`Primary reason for seeking funding: ${fundingReason}`, 40, y); y += 24;
+            try {
+                const canvas = await html2canvas(formElements, { scale: 2 });
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-            doc.setFont(undefined, "bold");
-            doc.text("MERCHANT/OWNER INFORMATION", 40, y); y += 18;
-            doc.setFont(undefined, "normal");
-            doc.text(`Corporate Office/Owner Name: ${val('corporateOwnerName')}`, 40, y); y += 16;
-            doc.text(`Title: ${val('ownerTitle')}`, 40, y); y += 16;
-            doc.text(`Ownership Percentage: ${val('ownershipPercentage')}`, 40, y); y += 16;
-            doc.text(`Home Address: ${val('ownerHomeAddress')}`, 40, y); y += 16;
-            doc.text(`City: ${val('ownerCity')}, State: ${val('ownerState')}, Zip: ${val('ownerZip')}`, 40, y); y += 16;
-            doc.text(`Social Security Number (SSN): ${val('ownerSsn')}`, 40, y); y += 16;
-            doc.text(`Date of Birth: ${val('ownerDob')}`, 40, y); y += 16;
-            doc.text(`FICO Score: ${val('ownerFicoScore')}`, 40, y); y += 16;
-            doc.text(`Cell Number: ${val('ownerCellNumber')}`, 40, y); y += 24;
-            doc.setFont(undefined, "bold");
-            doc.text("PARTNER INFORMATION", 40, y); y += 18;
-            doc.setFont(undefined, "normal");
-            doc.text(`Partner Name: ${val('partnerName1')}`, 40, y); y += 16;
-            doc.text(`Title: ${val('partnerTitle1')}`, 40, y); y += 16;
-            doc.text(`Ownership Percentage: ${val('partnerOwnershipPercentage1')}`, 40, y); y += 16;
-            doc.text(`Home Address: ${val('partnerHomeAddress1')}`, 40, y); y += 16;
-            doc.text(`City: ${val('partnerCity1')}, State: ${val('partnerState1')}, Zip: ${val('partnerZip1')}`, 40, y); y += 16;
-            doc.text(`Social Security Number (SSN): ${val('partnerSsn1')}`, 40, y); y += 16;
-            doc.text(`Date of Birth: ${val('partnerDob1')}`, 40, y); y += 16;
-            doc.text(`FICO Score: ${val('partnerFicoScore1')}`, 40, y); y += 16;
-            doc.text(`Cell Number: ${val('partnerCellNumber1')}`, 40, y); y += 24;
-            doc.setFont(undefined, "bold");
-            doc.text("Additional Documents Required", 40, y); y += 18;
-            doc.setFont(undefined, "normal");
-            doc.text("Attach the following (check if included):", 40, y); y += 16;
-            doc.text("[ ] 4 recent months of business bank statements", 50, y); y += 14;
-            doc.text("[ ] Copy of driver's license", 50, y); y += 14;
-            doc.text("[ ] Voided business check", 50, y); y += 24;
-            doc.setFont(undefined, "italic");
-            doc.text("By signing above, each of the above listed business and business owner/officer (individually and collectively, “you”) authorize Express Capital Network Associates and its agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statements or data obtained from applicant. You also authorize Express Capital Network Associates to transmit this application form, with any of the foregoing information obtained in connection with this application, to any or all of the Recipients for the foregoing purposes. You also consent to the release, by any creditor or financial institution, of any information relating to any of you, to Express Capital Network Associates and to each of the Recipients, on its own behalf. I am providing my business cell-phone and business e-mail address and hereby consent to the receipt of correspondence/messages regarding transactions with Express Capital Network Associates and/or its affiliates on either medium. I certify that all the information contained herein is complete, true and accurate.", 40, y, {maxWidth: 520});
-            y += 80;
-            doc.setFont(undefined, "normal");
-            doc.text("Signature: _____________________________", 40, y);
-            doc.text("Date: ___________________", 300, y);
-            doc.save("Express_Capital_Application.pdf");
-        });
+                let heightLeft = pdfHeight;
+                let position = 0;
 
-        // Signature pad logic
-        const canvas = document.getElementById('signaturePad');
-        const ctx = canvas.getContext('2d');
-        let drawing = false;
-        const agreement = document.getElementById('agreement');
-        function enableSignature() {
-            if (agreement.checked) {
-                canvas.style.cursor = 'crosshair';
-            } else {
-                canvas.style.cursor = 'not-allowed';
+                doc.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                heightLeft -= doc.internal.pageSize.getHeight();
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - pdfHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                    heightLeft -= doc.internal.pageSize.getHeight();
+                }
+
+                doc.save('Express_Capital_Application.pdf');
+            } catch (error) {
+                console.error("PDF generation failed:", error);
+                alert("An error occurred while generating the PDF. Please try again.");
+            } finally {
+                // Restore button and input visibility
+                document.querySelectorAll('.buttons, .anchor-btn, input[type="file"]').forEach(el => el.style.visibility = 'visible');
             }
         }
-        agreement.addEventListener('change', enableSignature);
-        enableSignature();
+
+        // Signature pad logic using signature_pad library
+        const canvas = document.getElementById("signaturePad");
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)'
+        });
+        
+        // Show error when trying to sign without agreement - FIXED CODE
         canvas.addEventListener('mousedown', (e) => {
-            if (!agreement.checked) {
-                alert("Please check the box acknowledging you agree before signing.");
-                return;
-            }
-            drawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
-        });
-        canvas.addEventListener('mousemove', (e) => {
-            if (!drawing) return;
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
-        });
-        canvas.addEventListener('mouseup', () => {
-            drawing = false;
-            document.querySelector('#signature button[type="submit"]').scrollIntoView({ behavior: 'smooth' });
-        });
-        canvas.addEventListener('mouseleave', () => { drawing = false; });
-        canvas.addEventListener('touchstart', (e) => {
-            if (!agreement.checked) {
-                alert("Please check the box acknowledging you agree before signing.");
+            if (!agreementCheckbox.checked) {
                 e.preventDefault();
-                return;
+                document.getElementById('signatureError').style.display = 'block';
+                // Scroll to error message
+                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
             }
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            drawing = true;
-            ctx.beginPath();
-            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
         });
-        canvas.addEventListener('touchmove', (e) => {
-            if (!drawing) return;
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const touch = e.touches[0];
-            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        
+        canvas.addEventListener('touchstart', (e) => {
+            if (!agreementCheckbox.checked) {
+                e.preventDefault();
+                document.getElementById('signatureError').style.display = 'block';
+                // Scroll to error message
+                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
+            }
         });
-        canvas.addEventListener('touchend', () => {
-            drawing = false;
-            document.querySelector('#signature button[type="submit"]').scrollIntoView({ behavior: 'smooth' });
-        });
+        
         document.getElementById('clearSignature').addEventListener('click', () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            signaturePad.clear();
         });
 
-        // Disclosure form submit
-        document.getElementById('disclosureForm').addEventListener('submit', async (e) => {
+        // Control the signature pad based on the checkbox state
+        const agreementCheckbox = document.getElementById('agreement');
+        
+        // Initial state
+        if (!agreementCheckbox.checked) {
+            signaturePad.off();
+            canvas.style.cursor = 'not-allowed';
+        }
+        
+        agreementCheckbox.addEventListener('change', () => {
+            if (agreementCheckbox.checked) {
+                signaturePad.on();
+                canvas.style.cursor = 'crosshair';
+                // Hide error if it was showing
+                document.getElementById('signatureError').style.display = 'none';
+            } else {
+                signaturePad.off();
+                signaturePad.clear();
+                canvas.style.cursor = 'not-allowed';
+            }
+        });
+
+        const unifiedForm = document.getElementById('unifiedForm');
+        unifiedForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!agreement.checked) {
+
+            if (!agreementCheckbox.checked) {
                 alert("You must agree to the terms before submitting.");
+                document.getElementById('signatureError').style.display = 'block';
+                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
                 return;
             }
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let isCanvasEmpty = true;
-            for (let i = 0; i < imageData.data.length; i += 4) {
-                if (imageData.data[i + 3] !== 0) {
-                    isCanvasEmpty = false;
-                    break;
-                }
-            }
-            if (isCanvasEmpty) {
+
+            if (signaturePad.isEmpty()) {
                 alert("Please sign the document before submitting.");
                 return;
             }
-            const form = e.target;
-            const formData = new FormData(form);
-            const signatureData = canvas.toDataURL('image/png');
-            formData.append('signature', signatureData);
+
+            // Get form data and signature image
+            const formData = new FormData(unifiedForm);
+            const signatureBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            formData.append('signature-file', signatureBlob, 'signature.png');
+
             try {
-                const response = await fetch(form.action, {
-                    method: form.method,
+                const response = await fetch(unifiedForm.action, {
+                    method: 'POST',
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
+
                 if (response.ok) {
                     alert("Form submitted successfully!");
-                    form.reset();
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    unifiedForm.reset();
+                    signaturePad.clear();
                 } else {
                     const data = await response.json();
-                    if (Object.hasOwn(data, 'errors')) {
-                        alert(data.errors.map(error => error.message).join(", "));
+                    if (data && data.errors) {
+                        alert("Oops! There was a problem submitting your form. " + data.errors.map(err => err.message).join(", "));
                     } else {
                         alert("Oops! There was a problem submitting your form.");
                     }
@@ -539,12 +758,12 @@
                 alert("Oops! There was a problem submitting your form.");
             }
         });
-
+        
         // Resize canvas to fit container
         function resizeCanvas() {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            signaturePad.clear();
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
